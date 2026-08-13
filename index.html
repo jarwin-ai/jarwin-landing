@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarwin AI - Your AI Architecture Advisor</title>
+    <meta name="description" content="Design your complete technology architecture in 30 seconds. OSS vs Licensed comparison, compliance mapping, and progressive roadmap.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; color: #0f172a; line-height: 1.6; background: #0a0a0f; }
+        
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(10,10,15,0.8); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.06); padding: 1.2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.4rem; font-weight: 800; color: white; letter-spacing: -0.5px; }
+        .logo span { background: linear-gradient(135deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: white; }
+        
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 6rem 2rem;
+            position: relative; overflow: hidden;
+            background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 50%, rgba(168,85,247,0.08) 0%, transparent 40%),
+                        radial-gradient(ellipse at 20% 80%, rgba(99,102,241,0.06) 0%, transparent 40%),
+                        #0a0a0f;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+        .hero > * { position: relative; z-index: 1; }
+        
+        /* Floating orbs */
+        .orb {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4;
+            animation: orb-float 15s ease-in-out infinite;
+        }
+        .orb-1 { width: 400px; height: 400px; background: #6366f1; top: -100px; left: -100px; animation-delay: 0s; }
+        .orb-2 { width: 300px; height: 300px; background: #a855f7; bottom: -50px; right: -50px; animation-delay: -5s; }
+        .orb-3 { width: 200px; height: 200px; background: #6366f1; top: 40%; right: 10%; animation-delay: -10s; opacity: 0.2; }
+        @keyframes orb-float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+        
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); color: #a5b4fc; padding: 8px 20px; border-radius: 100px; font-size: 0.85rem; font-weight: 500; margin-bottom: 2rem; backdrop-filter: blur(10px); }
+        .hero-badge::before { content: ''; width: 8px; height: 8px; background: #6366f1; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        
+        .hero h1 { font-size: 4.5rem; font-weight: 900; line-height: 1.05; margin-bottom: 1.5rem; letter-spacing: -3px; color: white; }
+        .hero h1 span { background: linear-gradient(135deg, #818cf8, #c084fc, #f0abfc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.3rem; color: #94a3b8; max-width: 580px; margin: 0 auto 3rem; font-weight: 400; line-height: 1.7; }
+        
+        .hero-cta { display: inline-flex; align-items: center; gap: 10px; background: white; color: #0a0a0f; padding: 18px 44px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.05rem; transition: all 0.3s; box-shadow: 0 0 40px rgba(99,102,241,0.3); }
+        .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 0 60px rgba(99,102,241,0.5); }
+        .hero-cta svg { width: 20px; height: 20px; }
+        .hero-sub { margin-top: 1.2rem; font-size: 0.85rem; color: #64748b; }
+        
+        /* Stats bar */
+        .stats { display: flex; gap: 3rem; justify-content: center; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.06); }
+        .stat { text-align: center; }
+        .stat-num { font-size: 2rem; font-weight: 800; color: white; }
+        .stat-label { font-size: 0.8rem; color: #64748b; margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Features */
+        .features { padding: 7rem 2rem; max-width: 1100px; margin: 0 auto; position: relative; }
+        .section-label { text-align: center; color: #6366f1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+        .features h2 { text-align: center; font-size: 2.8rem; font-weight: 800; margin-bottom: 0.75rem; color: white; letter-spacing: -1px; }
+        .features .subtitle { text-align: center; color: #64748b; margin-bottom: 4rem; font-size: 1.1rem; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .feature-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 2.5rem 2rem; transition: all 0.4s; position: relative; overflow: hidden; }
+        .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent); opacity: 0; transition: opacity 0.4s; }
+        .feature-card:hover { background: rgba(99,102,241,0.05); border-color: rgba(99,102,241,0.2); transform: translateY(-4px); }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-card .icon { font-size: 2.2rem; margin-bottom: 1.2rem; display: inline-block; padding: 12px; background: rgba(99,102,241,0.1); border-radius: 12px; }
+        .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; color: white; }
+        .feature-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
+        
+        /* How it works */
+        .how { padding: 7rem 2rem; position: relative; overflow: hidden; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .how-inner { max-width: 700px; margin: 0 auto; }
+        .how h2 { text-align: center; font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; color: white; letter-spacing: -1px; }
+        .how .subtitle { text-align: center; color: #64748b; margin-bottom: 3.5rem; font-size: 1.1rem; }
+        .step { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 2.5rem; padding: 1.5rem; border-radius: 16px; transition: background 0.3s; }
+        .step:hover { background: rgba(99,102,241,0.05); }
+        .step-num { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; font-size: 1.1rem; }
+        .step-content h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.3rem; color: white; }
+        .step-content p { color: #94a3b8; font-size: 0.95rem; }
+        
+        /* Unique section */
+        .unique { padding: 7rem 2rem; position: relative; overflow: hidden; }
+        .unique-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+        .unique h2 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; color: white; letter-spacing: -1px; }
+        .unique > .subtitle { color: #64748b; font-size: 1.1rem; margin-bottom: 3rem; }
+        .unique-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; text-align: left; }
+        .unique-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 1.5rem; transition: all 0.3s; }
+        .unique-item:hover { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.05); }
+        .unique-item strong { color: #a78bfa; display: block; margin-bottom: 0.3rem; font-size: 0.95rem; }
+        .unique-item p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+        
+        /* Pricing */
+        .pricing { padding: 7rem 2rem; max-width: 900px; margin: 0 auto; }
+        .pricing h2 { text-align: center; font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; color: white; letter-spacing: -1px; }
+        .pricing .subtitle { text-align: center; color: #64748b; margin-bottom: 3.5rem; font-size: 1.1rem; }
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .price-card { border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 2.5rem; background: rgba(255,255,255,0.02); }
+        .price-card.pro { border-color: rgba(99,102,241,0.4); background: linear-gradient(180deg, rgba(99,102,241,0.08) 0%, rgba(10,10,15,0) 100%); position: relative; }
+        .price-card.pro::before { content: "Most Popular"; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 5px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; }
+        .price-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: white; }
+        .price-card .price { font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem; color: white; }
+        .price-card .price span { font-size: 1rem; color: #64748b; font-weight: 400; }
+        .price-card ul { list-style: none; margin-bottom: 2rem; }
+        .price-card li { padding: 0.6rem 0; color: #94a3b8; font-size: 0.95rem; }
+        .price-card li::before { content: "✓ "; color: #6366f1; font-weight: 700; }
+        .price-btn { display: block; text-align: center; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s; }
+        .price-btn.free { background: rgba(255,255,255,0.06); color: white; border: 1px solid rgba(255,255,255,0.1); }
+        .price-btn.free:hover { background: rgba(255,255,255,0.1); }
+        .price-btn.paid { background: white; color: #0a0a0f; box-shadow: 0 0 30px rgba(99,102,241,0.2); }
+        .price-btn.paid:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(99,102,241,0.4); }
+        
+        /* CTA */
+        .final-cta { padding: 7rem 2rem; text-align: center; position: relative; }
+        .final-cta h2 { font-size: 2.8rem; font-weight: 800; color: white; margin-bottom: 1rem; letter-spacing: -1px; }
+        .final-cta p { color: #64748b; font-size: 1.1rem; margin-bottom: 2.5rem; }
+        
+        /* Footer */
+        footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.04); color: #64748b; font-size: 0.9rem; }
+        footer a { color: #818cf8; text-decoration: none; }
+        footer a:hover { color: #a5b4fc; }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; letter-spacing: -1px; }
+            .hero p { font-size: 1.05rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .unique-grid { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; gap: 1.5rem; }
+            nav { padding: 1rem 1.5rem; }
+            .features h2, .how h2, .unique h2, .pricing h2, .final-cta h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Jarwin <span>AI</span></div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how">How it works</a>
+            <a href="#pricing">Pricing</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        
+        <span class="hero-badge">AI-Powered Architecture Advisor</span>
+        <h1>Design your entire<br>tech architecture in<br><span>30 seconds</span></h1>
+        <p>Tell Jarwin AI about your company. Get a complete architecture blueprint with tool recommendations, compliance mapping, and cost projections.</p>
+        <a href="https://jarwin-ai.streamlit.app" class="hero-cta">
+            Try Jarwin AI — Free
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+        <p class="hero-sub">No signup required. Results in 30 seconds.</p>
+        
+        <div class="stats">
+            <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Tools Analyzed</div></div>
+            <div class="stat"><div class="stat-num">5</div><div class="stat-label">Compliance Frameworks</div></div>
+            <div class="stat"><div class="stat-num">6</div><div class="stat-label">AI Agents</div></div>
+            <div class="stat"><div class="stat-num">30s</div><div class="stat-label">Time to Blueprint</div></div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <p class="section-label">Features</p>
+        <h2>Everything you need to architect right</h2>
+        <p class="subtitle">What usually takes consultants 3 months and costs thousands</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h3>Maturity Assessment</h3>
+                <p>Know your current level (1-5) and get a phased roadmap to enterprise-grade architecture with clear milestones</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">⚖️</div>
+                <h3>OSS vs Licensed</h3>
+                <p>For every component, see open-source and licensed options side by side with real Total Cost of Ownership math</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">✅</div>
+                <h3>Compliance Mapping</h3>
+                <p>Architecture generated compliant from day one — HIPAA, PCI-DSS, SOC2, GDPR, ISO27001</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">💰</div>
+                <h3>Cost Projections</h3>
+                <p>3-year TCO comparison across all paths. Know exactly what you'll spend before you commit</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🗺️</div>
+                <h3>Progressive Roadmap</h3>
+                <p>Phased plan from startup to enterprise with measurable transition triggers — not just a static diagram</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">💬</div>
+                <h3>Chat Interface</h3>
+                <p>Ask naturally — "What database for fintech?" — and get expert-level answers backed by data</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="how" id="how">
+        <div class="how-inner">
+            <p class="section-label">How it works</p>
+            <h2>Three steps to your blueprint</h2>
+            <p class="subtitle">From zero to complete architecture in under a minute</p>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Describe your company</h3>
+                    <p>Industry, team size, budget, compliance needs, cloud preference. Chat naturally or fill a quick form.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Jarwin AI analyzes</h3>
+                    <p>6 specialized agents collaborate — assessing maturity, selecting tools, validating compliance, calculating costs.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Get your architecture</h3>
+                    <p>Complete blueprint with phased roadmap, dual-path tool recommendations, compliance report, and cost analysis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="unique">
+        <div class="unique-inner">
+            <p class="section-label">Why Jarwin AI</p>
+            <h2>What no one else offers</h2>
+            <p class="subtitle" style="color:#64748b;">No other tool combines all of these in one system</p>
+            <div class="unique-grid">
+                <div class="unique-item">
+                    <strong>Not ChatGPT</strong>
+                    <p>Uses verified data and scoring algorithms. Consistent, deterministic results every time.</p>
+                </div>
+                <div class="unique-item">
+                    <strong>Not just tool lists</strong>
+                    <p>Full E2E architecture — from infrastructure and networking to security and business tools.</p>
+                </div>
+                <div class="unique-item">
+                    <strong>Dual-path TCO</strong>
+                    <p>Real cost math comparing open-source vs licensed for every single component.</p>
+                </div>
+                <div class="unique-item">
+                    <strong>Compliance-first generation</strong>
+                    <p>Architecture generated compliant from the start — not checked after the fact.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <p class="section-label">Pricing</p>
+        <h2>Start free, upgrade when ready</h2>
+        <p class="subtitle">No credit card required</p>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <h3>Free</h3>
+                <div class="price">$0 <span>/month</span></div>
+                <ul>
+                    <li>1 architecture blueprint</li>
+                    <li>Basic tool recommendations</li>
+                    <li>SOC2 compliance check</li>
+                    <li>Chat mode</li>
+                </ul>
+                <a href="https://jarwin-ai.streamlit.app" class="price-btn free">Get Started Free</a>
+            </div>
+            <div class="price-card pro">
+                <h3>Pro</h3>
+                <div class="price">$29 <span>/month</span></div>
+                <ul>
+                    <li>Unlimited blueprints</li>
+                    <li>50+ tools database</li>
+                    <li>All 5 compliance frameworks</li>
+                    <li>Full maturity roadmap (5 levels)</li>
+                    <li>Priority support</li>
+                </ul>
+                <a href="https://jarwin-ai.streamlit.app" class="price-btn paid">Upgrade to Pro</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <h2>Ready to architect smarter?</h2>
+        <p>Join companies designing their technology stack with AI-powered intelligence</p>
+        <a href="https://jarwin-ai.streamlit.app" class="hero-cta">
+            Try Jarwin AI — Free
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+    </section>
+
+    <footer>
+        <p><strong style="color:white;">Jarwin AI</strong> — Architecture intelligence for every company</p>
+        <p style="margin-top:0.75rem;"><a href="https://jarwin-ai.streamlit.app">Try the App</a> &nbsp;·&nbsp; <a href="https://github.com/jarwin-ai/jarwin">GitHub</a></p>
+    </footer>
+</body>
+</html>
