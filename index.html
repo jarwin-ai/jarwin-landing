@@ -156,19 +156,24 @@
         }
     </style>
     <script>
-        // Always scroll to top on page load/refresh
+        // Scroll to top on every page load
         if (history.scrollRestoration) { history.scrollRestoration = 'manual'; }
-        window.scrollTo(0,0);
-        
-        // Clear hash from URL after scroll (keeps URL clean)
-        document.querySelectorAll('a[href^="#"]').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                var target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({behavior: 'smooth'});
-                }
-                history.replaceState(null, null, window.location.pathname);
+        window.scrollTo(0, 0);
+        // Clean URL hash on load
+        if (window.location.hash) {
+            history.replaceState(null, null, window.location.pathname);
+        }
+        // Nav links: smooth scroll + keep URL clean
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({behavior: 'smooth'});
+                    }
+                    history.replaceState(null, null, window.location.pathname);
+                });
             });
         });
     </script>
