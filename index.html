@@ -155,10 +155,16 @@
             .features h2, .how h2, .unique h2, .pricing h2, .final-cta h2 { font-size: 2rem; }
         }
     </style>
+    <script>
+        // Always scroll to top on page load/refresh
+        window.onbeforeunload = function() { window.scrollTo(0,0); };
+        if (history.scrollRestoration) { history.scrollRestoration = 'manual'; }
+        window.scrollTo(0,0);
+    </script>
 </head>
 <body>
     <nav>
-        <div class="logo">Jarwin <span>AI</span></div>
+        <a href="#" class="logo" style="text-decoration:none;">Jarwin <span>AI</span></a>
         <div class="nav-links">
             <a href="#features">Features</a>
             <a href="#how">How It Works</a>
