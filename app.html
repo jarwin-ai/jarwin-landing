@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarwin AI - Architecture Advisor</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0f; overflow: hidden; }
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+        /* Loading state while Streamlit wakes up */
+        .loading {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #0a0a0f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: opacity 0.5s;
+        }
+        .loading.hidden { opacity: 0; pointer-events: none; }
+        .loading h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .loading h1 span {
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .loading p {
+            font-family: 'Inter', sans-serif;
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 3px solid #1e293b;
+            border-top: 3px solid #818cf8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1.5rem;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="loading" id="loader">
+        <div class="spinner"></div>
+        <h1>Jarwin <span>AI</span></h1>
+        <p>Loading your architecture advisor...</p>
+    </div>
+    <iframe 
+        src="https://jarwin-ai.streamlit.app/?embed=true&embed_options=light_theme" 
+        allowfullscreen
+        onload="document.getElementById('loader').classList.add('hidden')"
+    ></iframe>
+</body>
+</html>
