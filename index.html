@@ -180,18 +180,18 @@
 </head>
 <body>
     <!-- Neural Network Background -->
-    <canvas id="neural-bg" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.4;"></canvas>
+    <canvas id="neural-bg" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0.7;"></canvas>
     <script>
         (function() {
             var canvas = document.getElementById('neural-bg');
             var ctx = canvas.getContext('2d');
             var nodes = [];
-            var nodeCount = 60;
-            var maxDist = 150;
+            var nodeCount = 80;
+            var maxDist = 180;
 
             function resize() {
                 canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight * 5;
+                canvas.height = window.innerHeight;
             }
             resize();
             window.addEventListener('resize', resize);
@@ -216,9 +216,9 @@
                         var dy = nodes[i].y - nodes[j].y;
                         var dist = Math.sqrt(dx * dx + dy * dy);
                         if (dist < maxDist) {
-                            var alpha = (1 - dist / maxDist) * 0.15;
+                            var alpha = (1 - dist / maxDist) * 0.4;
                             ctx.strokeStyle = 'rgba(129,140,248,' + alpha + ')';
-                            ctx.lineWidth = 0.5;
+                            ctx.lineWidth = 0.8;
                             ctx.beginPath();
                             ctx.moveTo(nodes[i].x, nodes[i].y);
                             ctx.lineTo(nodes[j].x, nodes[j].y);
@@ -230,9 +230,15 @@
                 // Draw nodes
                 for (var i = 0; i < nodes.length; i++) {
                     var n = nodes[i];
-                    ctx.fillStyle = 'rgba(129,140,248,0.3)';
+                    ctx.fillStyle = 'rgba(129,140,248,0.6)';
                     ctx.beginPath();
                     ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Glow effect
+                    ctx.fillStyle = 'rgba(129,140,248,0.15)';
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.r * 4, 0, Math.PI * 2);
                     ctx.fill();
 
                     // Move
